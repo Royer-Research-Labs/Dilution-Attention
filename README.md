@@ -1,5 +1,7 @@
 # DilutionAttention
 
+[![tests](https://github.com/Royer-Research-Labs/Dilution-Attention/actions/workflows/tests.yml/badge.svg)](https://github.com/Royer-Research-Labs/Dilution-Attention/actions/workflows/tests.yml)
+
 A causal attention operator with **no learnable parameters**, in which each
 query's claim on a key is divided by the demand that key has already received
 from earlier queries. It trains at the same complexity class as softmax
@@ -101,8 +103,15 @@ Throughput is the logged training rate on an RTX PRO 6000.
    without position encoding; one RoPE seed 0.29-0.33 to about 3.75x with NTK
    scaling) before degrading. The RoPE-bearing dilution and hybrid
    configurations tested also degrade eventually; NTK scaling extends some of
-   them but does not remove the degradation. Pure dilution with no position encoding produced the longest
-   extrapolation observed ([S12-S17, S21, S24](docs/signals.md)).
+   them but does not remove the degradation. Pure dilution with no position
+   encoding produced the longest extrapolation observed
+   ([S12-S17, S21, S24](docs/signals.md)). The same holds for loss on long real
+   books (PG-19): past the trained context the 16K dilution models' loss stays
+   flat to 8x, while softmax + RoPE with NTK scaling ends up 1.7-1.9 nats worse
+   than dilution at 8x and softmax without position encoding 2.6-5.1 worse
+   ([S27](docs/signals.md)):
+
+   ![Loss by position on PG-19 books](docs/figures/pg19-perplexity-209m.png)
 2. **Extrapolation range varies by seed, and loss does not show it.** Dilution's
    loss replicates to 0.002-0.004 in every cell measured, but how far its
    retrieval reaches does not: 2x-8x at 64M among seeds that retrieve at all, 4x-8x
@@ -115,7 +124,10 @@ Throughput is the logged training rate on an RTX PRO 6000.
    softmax + RoPE is *ahead* by 0.036 at 1K (209M, two seeds). The two are roughly
    level at 8K (0.006, 64M), and dilution leads by 0.03-0.09 at 16K (0.028 for
    dilution without position encoding and 0.044 for alt6 at 209M; 0.077-0.092 at 64M
-   over three seeds) ([S5-S9, S11, S21-S24](docs/signals.md)).
+   over three seeds) ([S5-S9, S11, S21-S24](docs/signals.md)). Those margins are
+   on in-domain validation text. On out-of-domain long books (PG-19), inside the
+   trained context dilution trails softmax + RoPE by 0.05-0.08 nats at 16K and
+   0.18-0.24 at 1K ([S27](docs/signals.md)).
 4. **Position encoding matters more than the operator for loss, and the
    operator matters more for retrieval.** RoPE on every layer destroys
    dilution's retrieval. RoPE on alternate layers starting with the first is its
@@ -213,6 +225,7 @@ python -m dilution.train --config configs/smoke.yaml --overwrite-run   # synthet
   run record stores the SHA-256 of the corpus it trained on.
 - **Retrieval.** `dilution-niah` runs the NIAH harness
   ([Royer-Research-Labs/Niah](https://github.com/Royer-Research-Labs/Niah), pinned at `7cbf29f`).
+- **Long-document perplexity.** `scripts/long_perplexity.py` (PG-19 books).
 - **Sampling.** `scripts/sample_eval.py` (`pip install -e ".[sampling]"`);
   `scripts/verify_samples.py` recomputes every published sampling statistic from the shipped
   per-sample metrics.
@@ -229,6 +242,10 @@ Commands, the evaluation protocols and their caveats are in
   209M seed kept near-flat retrieval to 8x and the other fell to ~2x, at the same
   loss ([S24](docs/signals.md)). Extrapolation range, like 64M retrieval itself
   ([S23](docs/signals.md)), varies by seed in ways loss does not show.
+- **In-context loss out of domain.** On long out-of-domain books dilution trails
+  softmax + RoPE inside the trained context (0.05-0.08 nats at 16K, 0.18-0.24 at
+  1K), most at the start of each document, although it is level or ahead on
+  in-domain text ([S27](docs/signals.md)). Why is open.
 - **Broader retrieval validation.** NIAH here is likelihood-scored keyword
   retrieval over 7 scored needles per length (chance 1/7), not long-context
   reasoning. Generation is tested for local fluency only ([S25](docs/signals.md));
@@ -256,3 +273,8 @@ Commands, the evaluation protocols and their caveats are in
   alt6 recovers most of that while keeping in-context retrieval, but not the full
   extrapolation. A lower-level backward kernel is the open lever
   ([docs/kernels.md](docs/kernels.md)).
+
+## Contributing
+
+This is research code released with the evidence behind it. Issues and pull requests are welcome,
+especially reproductions, failed replications and bug reports; there is no support guarantee.

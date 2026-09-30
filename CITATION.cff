@@ -8,4 +8,20 @@ authors:
     affiliation: "Royer Research Labs, LLC"
 version: 0.1.0
 license: Apache-2.0
-repository-code: "https://github.com/Royer-Research-Labs/dilution-attention"
+repository-code: "https://github.com/Royer-Research-Labs/Dilution-Attention"
+abstract: >-
+  DilutionAttention is a causal attention operator with no learnable parameters: each query's
+  softmax bid on a key is divided by the cumulative demand that key has already received from
+  earlier queries, and the shares are renormalised. The release contains the operator, fused
+  Triton kernels with exact gradients, training and evaluation code, run records for 200+
+  training runs, and an evidence ledger. At 209M parameters with no position encoding, dilution
+  models retrieve planted keywords at eight times their training context, where matched softmax
+  controls fall to chance; within the trained context, loss and sample quality track softmax
+  with RoPE.
+keywords:
+  - attention
+  - transformer
+  - language model
+  - length extrapolation
+  - long context
+  - position encoding

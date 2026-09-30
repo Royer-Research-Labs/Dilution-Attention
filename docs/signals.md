@@ -1967,3 +1967,68 @@ against softmax's 3.7654, and in the 95-minute budget roughly 3.52-3.55 against 
 **Records.** `runs/validate_s27/` holds the replay and the frozen-demand run, each with its kernel
 source hash. The 1,000-step screens behind the timing tables compared intermediate kernel versions
 that are not part of this release, so their records are not included; the timings are as measured.
+
+## S27 — Long-document perplexity (PG-19): past the trained context dilution's loss stays flat to 8x for the 16K models and rises gradually for the 1K models, while every softmax model's loss climbs steeply (1.7-1.9 nats worse than dilution at 8x with RoPE and NTK scaling, 2.6-5.1 worse without position encoding); inside the trained context, on these out-of-domain books, dilution trails softmax + RoPE by 0.05-0.08 nats at 16K and 0.18-0.24 at 1K (measured, 29 / 120 books; two seeds per arm, one dilution seed at 16K 1x)
+
+**Why.** NIAH is synthetic. Loss by position on long real documents is the standard test of
+length extrapolation, and it also shows how the operators compare inside the trained context on
+text unlike the training data.
+
+**Setup.** The PG-19 test and validation splits (150 Project Gutenberg books published before 1919;
+parquet mirror `emozilla/pg19` at revision c021754), GPT-2-tokenized into 15.2M tokens
+(`scripts/long_perplexity.py prepare`; the manifest records the token file's SHA-256). The 16K
+models read the first 128K tokens (8x) of the 29 books that long; the 1K models read the first 32K
+tokens (32x) of the 120 books that long. Each model reads each book teacher-forced, and the loss at
+every position is averaged within doubling position ranges. Models with RoPE get one pass per
+length with NTK base scaling to that length, as in the NIAH ladders (range (L/2, L] comes from the
+pass at L), and one pass without scaling. Results: `results/longppl/pg19_209m_{16k_1x,16k_2x,1k}.json`
+(every book's per-range loss is stored); figure: `docs/figures/pg19-perplexity-209m.png`.
+
+Loss (nats per token, mean over books) by position range; "a / b" is seeds 1337 / 2357:
+
+| 16K, 1x Chinchilla | 8K-16K (in context) | 16K-32K (2x) | 32K-64K (4x) | 64K-128K (8x) |
+|---|---:|---:|---:|---:|
+| dilution, no position encoding (seed 2357) | 3.554 | 3.577 | 3.607 | 3.605 |
+| softmax + RoPE, NTK scaling | 3.537 / 3.513 | 3.710 / 3.723 | 4.517 / 4.680 | 5.338 / 5.539 |
+| softmax + RoPE, no scaling | | 5.228 / 5.458 | 6.083 / 6.439 | 6.174 / 6.923 |
+| alt6, NTK scaling | 3.500 / 3.553 | 3.463 / 3.526 | 3.661 / 3.818 | 3.980 / 4.213 |
+| softmax, no position encoding (seed 2357) | 3.820 | 3.978 | 5.544 | 6.203 |
+
+| 16K, 2x Chinchilla | 8K-16K (in context) | 16K-32K (2x) | 32K-64K (4x) | 64K-128K (8x) |
+|---|---:|---:|---:|---:|
+| dilution, no position encoding | 3.372 / 3.353 | 3.334 / 3.349 | 3.395 / 3.382 | 3.413 / 3.389 |
+| softmax, no position encoding | 3.498 / 3.542 | 5.462 / 5.153 | 7.827 / 6.758 | 8.471 / 7.317 |
+
+| 1K context | 512-1K (in context) | 1K-2K (2x) | 2K-4K (4x) | 4K-8K (8x) | 16K-32K (32x) |
+|---|---:|---:|---:|---:|---:|
+| dilution, no position encoding | 3.374 / 3.343 | 3.502 / 3.445 | 3.648 / 3.581 | 3.737 / 3.676 | 4.179 / 4.226 |
+| softmax + RoPE, NTK scaling | 3.134 / 3.158 | 4.159 / 4.413 | 6.687 / 6.845 | 7.579 / 7.382 | 8.239 / 7.525 |
+| softmax, no position encoding | 3.234 / 3.308 | 5.018 / 5.384 | 7.753 / 8.410 | 8.437 / 9.955 | 9.033 / 10.457 |
+
+1. **Past the trained context, the retrieval result holds for loss on real books.** Paired over
+   books (dilution minus the other model, with its standard error): at 16K and 1x, against softmax
+   + RoPE with NTK scaling, -0.13 / -0.15 at 2x (+-0.11, within noise), -0.91 / -1.07 at 4x and
+   -1.73 / -1.94 at 8x; against alt6, +0.05 / +0.11 at 2x (within noise), -0.05 / -0.21 at 4x and
+   -0.38 / -0.61 at 8x. At 2x Chinchilla, against softmax without position encoding: -1.8 to -2.1
+   at 2x, -3.4 to -4.4 at 4x and -3.9 to -5.1 at 8x. At 1K, against every softmax model: -0.66 to
+   -1.94 at 2x and -3.0 to -6.6 from 4x on.
+2. **Dilution's own curve.** The 16K models stay flat: the 1x model is 0.05 above its in-context
+   loss at 4x-8x, and the 2x models stay within 0.05 of theirs at every range to 8x. The 1K models
+   degrade gradually: +0.10-0.13 at 2x, +0.24-0.27 at 4x, +0.33-0.36 at 8x and +0.81-0.88 at 32x
+   over their 512-1K loss, where softmax rises by 1.0-2.1 nats at 2x and 3.5-5.1 by 4x. alt6 with NTK
+   scaling matches dilution at 2x and degrades from 4x, in line with its NIAH reach (3x-4x).
+3. **Inside the trained context, on these out-of-domain books, dilution trails softmax + RoPE.**
+   Averaged over the positions inside the trained context and paired over books: at 16K and 1x,
+   dilution is behind softmax + RoPE by 0.047 +- 0.017 (seed 1337) and 0.084 +- 0.018 (seed 2357)
+   and behind alt6 by 0.04-0.08, and ahead of softmax without position encoding by 0.25. At 2x
+   Chinchilla it is ahead of softmax without position encoding by 0.12-0.19. At 1K it is behind
+   softmax + RoPE by 0.18-0.24 and behind softmax without position encoding by 0.09-0.15. On the
+   in-domain FineWeb-Edu validation slice the same checkpoints put dilution 0.02-0.03 ahead of
+   softmax + RoPE at 16K, 0.036 behind it at 1K and 0.01-0.02 ahead of softmax without position
+   encoding at 1K, so on these books the in-context comparison moves against dilution, most at
+   short context. The largest gap is at the start of each book (positions 0-512: 4.06 for dilution
+   against 3.68-3.87 for softmax + RoPE at 16K). Why is not tested; the books are pre-1919
+   fiction and non-fiction, far from the educational web text the models were trained on.
+
+Caveats: 29 books at 16K (only books of at least 128K tokens qualify), one dilution seed at 16K 1x,
+one domain; RoPE models use dynamic NTK scaling, and their unscaled loss is reported too.

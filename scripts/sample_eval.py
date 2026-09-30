@@ -32,6 +32,7 @@ from pathlib import Path
 import torch
 import yaml
 
+from dilution.extend import ExtendedContext as Extended
 from dilution.niah_eval import checkpoint_identity, load_model_for_niah
 from dilution.runtime import create_token_stream
 from dilution.sampling import (EOT, GPT2_VOCAB, Judge, continuation_nll, sample_stats, select_end_positions,
@@ -47,32 +48,6 @@ HUMAN = "human"
 
 def log(msg: str) -> None:
     print(f"[sample_eval {time.strftime('%H:%M:%S')}] {msg}", flush=True)
-
-
-class Extended:
-    """Temporarily raise a model's context cap to `need` tokens and apply NTK RoPE scaling."""
-
-    def __init__(self, model, need: int, ntk: bool):
-        self.model, self.need, self.ntk = model, need, ntk
-        self.trained = model.config.context_length
-        self.ropes = [m for m in model.modules() if type(m).__name__ == "RopeModule"]
-        self.thetas = [r.theta for r in self.ropes]
-
-    def __enter__(self):
-        if self.need > self.trained:
-            if getattr(self.model.config, "positional", "learned") == "learned":
-                raise ValueError("cannot extend a model with a learned position table")
-            self.model.config.context_length = self.need
-            if self.ntk:
-                scale = self.need / self.trained
-                for r, th in zip(self.ropes, self.thetas):
-                    r.theta = th * scale ** (r.dim / (r.dim - 2))
-        return self.model
-
-    def __exit__(self, *exc):
-        self.model.config.context_length = self.trained
-        for r, th in zip(self.ropes, self.thetas):
-            r.theta = th
 
 
 def batches(n: int, size: int):

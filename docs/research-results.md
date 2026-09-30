@@ -1,7 +1,7 @@
 # Dilution Attention research results
 
-The concise, current record, reviewed through `docs/signals.md` S25 (2026-09-30). The numbered
-signals, per-run `metrics.jsonl` records and `results/{niah,niah_v4,eval,structure,needle,samples}` are the
+The concise, current record, reviewed through `docs/signals.md` S27 (2026-09-30). The numbered
+signals, per-run `metrics.jsonl` records and `results/{niah,niah_v4,eval,structure,needle,samples,longppl}` are the
 evidence and take precedence if this summary disagrees with them. Every number below states its
 seed count. Claims that did not survive replication are collected under
 [Superseded](#superseded-and-withdrawn-claims) rather than left in place.
@@ -82,6 +82,10 @@ final row normalisation, and exact demand gradients.
   of its tokens of the prompt (lower is more natural; the human text scores 0.65-0.70), read with
   repetition (seq-rep-4) because repetitive text also scores low. The judge sees local context
   only, so this measures fluency and local coherence, not long-range consistency (S25).
+- **Long-document perplexity:** `scripts/long_perplexity.py` reads long PG-19 books (Project
+  Gutenberg, published before 1919; out of domain for FineWeb-Edu-trained models) teacher-forced
+  and records the loss at every position, averaged within doubling position ranges, in and past
+  the trained context (S27).
 - **Loss:** 209M and 64M comparisons use one common validation slice per scale
   (`scripts/eval_checkpoint.py`). In-run validation windows differ with batch size and are not
   comparable across runs (S11).
@@ -159,6 +163,29 @@ fair comparison is at depth. Neither statistic tracks extrapolation: the two 2x 
 differ in reach (0.54 against 0.97 at 64K) but not in sink or key Gini. These are snapshots of
 trained models, not a causal account of long-context retrieval.
 
+### Long-document perplexity (PG-19)
+
+Loss by position on long Project Gutenberg books (S27): the 16K models read the first 128K tokens of
+the 29 books that long, the 1K models the first 32K tokens of 120 books. RoPE models use NTK scaling
+past their context. Mean loss (nats per token) in the last in-context range and at 2x / 4x / 8x the
+trained context; "a / b" is two seeds:
+
+| 209M | in context | 2x | 4x | 8x |
+|---|---:|---:|---:|---:|
+| 16K 1x: dilution, no position encoding (one seed) | 3.554 | 3.577 | 3.607 | 3.605 |
+| 16K 1x: softmax + RoPE | 3.537 / 3.513 | 3.710 / 3.723 | 4.517 / 4.680 | 5.338 / 5.539 |
+| 16K 1x: alt6 | 3.500 / 3.553 | 3.463 / 3.526 | 3.661 / 3.818 | 3.980 / 4.213 |
+| 16K 2x: dilution, no position encoding | 3.372 / 3.353 | 3.334 / 3.349 | 3.395 / 3.382 | 3.413 / 3.389 |
+| 16K 2x: softmax, no position encoding | 3.498 / 3.542 | 5.462 / 5.153 | 7.827 / 6.758 | 8.471 / 7.317 |
+| 1K: dilution, no position encoding | 3.374 / 3.343 | 3.502 / 3.445 | 3.648 / 3.581 | 3.737 / 3.676 |
+| 1K: softmax + RoPE | 3.134 / 3.158 | 4.159 / 4.413 | 6.687 / 6.845 | 7.579 / 7.382 |
+| 1K: softmax, no position encoding | 3.234 / 3.308 | 5.018 / 5.384 | 7.753 / 8.410 | 8.437 / 9.955 |
+
+Past the trained context dilution stays flat at 16K and rises gradually at 1K, while every softmax
+model's loss climbs steeply. Inside the trained context the comparison differs from the in-domain
+validation slice: on these books dilution trails softmax + RoPE by 0.05-0.08 nats at 16K and
+0.18-0.24 at 1K (paired over books, averaged over the in-context positions).
+
 ## Findings
 
 1. **Dilution, not the absence of rotation, is what extrapolates.** With no position encoding on
@@ -170,7 +197,10 @@ trained models, not a causal account of long-context retrieval.
    / 0.39 without position encoding; one RoPE seed 0.29-0.33 to about 3.75x with NTK scaling)
    before degrading. The RoPE-bearing dilution and hybrid configurations tested also degrade
    eventually; NTK scaling extends some of them but does not remove the degradation. Pure dilution
-   with no position encoding produced the longest extrapolation observed (S12-S17, S21, S24).
+   with no position encoding produced the longest extrapolation observed (S12-S17, S21, S24). On
+   long real books the same holds for loss: past the trained context the 16K dilution models stay
+   flat to 8x, while softmax + RoPE with NTK scaling ends up 1.7-1.9 nats worse than dilution at 8x
+   and softmax without position encoding 2.6-5.1 worse (S27).
 2. **Dilution's loss is reproducible; its extrapolation range is not.** Dilution seeds agree to
    0.002-0.004 nats in every cell measured, while softmax seeds differ by up to 0.08. How far
    retrieval reaches varies by seed at every scale: 4x-8x at 1K context, 2x-8x after 2x Chinchilla
@@ -191,7 +221,10 @@ trained models, not a causal account of long-context retrieval.
    dilution leads at 16K: 0.028 without position encoding and 0.044 for alt6 at 209M, and 0.077 /
    0.092 without position encoding / with RoPE on alternate layers at 64M (three seeds). The early
    0.19-0.43-nat margins used learned position tables for softmax and mostly measured their failure
-   (S1, S5-S9, S11, S21-S24).
+   (S1, S5-S9, S11, S21-S24). These margins are on the in-domain validation slice. On
+   out-of-domain long books (PG-19), inside the trained context dilution trails softmax + RoPE by
+   0.05-0.08 nats at 16K and 0.18-0.24 at 1K, and softmax without position encoding by 0.09-0.15
+   at 1K (S27).
 5. **Dilution strongly suppresses the token-0 attention sink, in the layers measured.** The probe
    samples three
    layers (first, middle, last) of one 1,024-token window per checkpoint, averaged over heads. No
@@ -292,6 +325,8 @@ Kept here so the ledger's earlier wording is not mistaken for current results.
 - What makes a retrieval head form, or fail to form, in a given seed. Tracking the needle-attention
   profile during training could catch a failing run early.
 - What sets extrapolation range once retrieval has formed.
+- Why dilution trails softmax inside the trained context on out-of-domain books, most at short
+  context and at the start of each document, when it is level or ahead on in-domain text (S27).
 - Scale beyond 209M and other data. Whether the 64M retrieval lottery disappears with size (all four
   209M dilution runs retrieved) needs more seeds to establish.
 - Hybrids with token-local mixers such as [TriGLU](https://github.com/Royer-Research-Labs/TriGLU),

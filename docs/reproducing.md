@@ -132,6 +132,22 @@ records the prompts, seeds, decoding settings, checkpoint hashes and judge revis
 regenerate them. The judge is pinned to that revision by default (`--judge-revision`), and a
 continuation too long for the judge's context is rejected rather than truncated.
 
+## Long-document perplexity (PG-19)
+
+`scripts/long_perplexity.py prepare` downloads the PG-19 test and validation splits (a parquet mirror,
+`emozilla/pg19`, pinned to one revision), tokenizes every book with the GPT-2 tokenizer and writes
+`data/pg19_gpt2/` with a manifest holding the token file's SHA-256. `eval` then reads each book that
+is long enough teacher-forced and records the loss at every position, averaged within doubling
+position ranges; models with RoPE get one pass per length with NTK scaling, plus one without:
+
+```bash
+python scripts/long_perplexity.py prepare
+python scripts/long_perplexity.py eval --model dilution=runs/<run>/latest.pt --model softmax=runs/<run>/latest.pt     --max-length 131072 --output results/longppl/<name>.json
+python scripts/long_perplexity.py plot results/longppl/<name>.json --out <figure>.png
+```
+
+Every book's per-range loss is stored, so paired comparisons over books can be recomputed.
+
 ## Run records and figures
 
 Each published run's record is under `runs/<group>/<arm>_seed<N>/`: `metrics.jsonl`, the fully

@@ -15,7 +15,7 @@ The Apache-2.0 [`NOTICE`](../NOTICE) attribution must be retained where required
 license. A suitable attribution for CC BY 4.0 material is:
 
 > DilutionAttention documentation and results, © 2026 Royer Research Labs, LLC, licensed
-> under CC BY 4.0. https://github.com/Royer-Research-Labs/dilution-attention
+> under CC BY 4.0. https://github.com/Royer-Research-Labs/Dilution-Attention
 
 Dataset content (FineWeb-Edu, Wikipedia), tokenizer assets, third-party software, and other
 externally sourced material retain their original licenses and terms. This repository's

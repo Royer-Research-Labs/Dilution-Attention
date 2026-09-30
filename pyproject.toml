@@ -22,15 +22,16 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Royer-Research-Labs/dilution-attention"
-Repository = "https://github.com/Royer-Research-Labs/dilution-attention.git"
-Issues = "https://github.com/Royer-Research-Labs/dilution-attention/issues"
+Homepage = "https://github.com/Royer-Research-Labs/Dilution-Attention"
+Repository = "https://github.com/Royer-Research-Labs/Dilution-Attention.git"
+Issues = "https://github.com/Royer-Research-Labs/Dilution-Attention/issues"
 
 [project.optional-dependencies]
 dev = ["pytest"]
 data = ["datasets", "tiktoken"]
 niah = ["tiktoken"]  # plus a checkout of https://github.com/Royer-Research-Labs/Niah (see README)
 figures = ["matplotlib"]
+hub = ["safetensors", "huggingface_hub"]  # dilution.hub: the published weights
 sampling = ["tiktoken", "transformers"]  # scripts/sample_eval.py; the judge model downloads on first use
 
 [project.scripts]
