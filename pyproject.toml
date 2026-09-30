@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dilution-attention"
+version = "0.1.0"
+description = "Dilution attention: a parameter-free causal attention operator that divides each bid by the demand its key has already absorbed, with fused Triton kernels and a controlled-study harness."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [
+  { name = "Nick Royer" },
+]
+maintainers = [
+  { name = "Royer Research Labs, LLC" },
+]
+dependencies = [
+    "torch>=2.4",
+    "PyYAML",
+]
+
+[project.urls]
+Homepage = "https://github.com/Royer-Research-Labs/dilution-attention"
+Repository = "https://github.com/Royer-Research-Labs/dilution-attention.git"
+Issues = "https://github.com/Royer-Research-Labs/dilution-attention/issues"
+
+[project.optional-dependencies]
+dev = ["pytest"]
+data = ["datasets", "tiktoken"]
+niah = ["tiktoken"]  # plus a checkout of https://github.com/Royer-Research-Labs/Niah (see README)
+figures = ["matplotlib"]
+sampling = ["tiktoken", "transformers"]  # scripts/sample_eval.py; the judge model downloads on first use
+
+[project.scripts]
+dilution-train = "dilution.train:main"
+dilution-benchmark = "dilution.benchmark:main"
+dilution-niah = "dilution.niah_eval:main"
+dilution-prepare-data = "dilution.prepare_data:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.setuptools.packages.find]
+where = ["src"]

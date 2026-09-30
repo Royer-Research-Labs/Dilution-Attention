@@ -1,0 +1,10 @@
+{
+  "loss": 3.1259476393461227,
+  "perplexity": 22.78147348828411,
+  "accuracy": 0.4089679718017578,
+  "tokens": 524288,
+  "batches": 64,
+  "run": "runs/scale_1024/all_softmax_rope_1k_seed2357",
+  "batch_size": 8,
+  "sequence_length": 1024
+}

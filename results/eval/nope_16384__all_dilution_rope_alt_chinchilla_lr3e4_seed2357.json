@@ -1,0 +1,10 @@
+{
+  "loss": 3.5552764385938644,
+  "perplexity": 34.99749328842582,
+  "accuracy": 0.3777275085449219,
+  "tokens": 1048576,
+  "batches": 64,
+  "run": "runs/nope_16384/all_dilution_rope_alt_chinchilla_lr3e4_seed2357",
+  "batch_size": 1,
+  "sequence_length": 16384
+}

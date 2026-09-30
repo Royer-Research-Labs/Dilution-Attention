@@ -1,0 +1,41 @@
+# Data-blend test (S22): softmax, no position encoding, LR 1.5e-4 (S16's softmax recipe; 3e-4 diverges at 64M), trained on a 50/50 Wikipedia / fineweb-edu
+# document-level blend (scripts/blend_corpus.py). Everything else, including the fineweb
+# validation split, matches the fineweb-only reference so data is the only change.
+model:
+  vocab_size: 50304
+  n_layers: 12
+  d_model: 512
+  n_heads: 8
+  context_length: 16384
+  positional: none
+  bias: false
+  mlp: swiglu
+  attention: softmax
+data:
+  synthetic: false
+  vocab_size: 50304
+  train_path: data/wiki50_fineweb50_2b/train.bin
+  val_path: data/fineweb_edu_100bt_40b/val.bin
+  train_tokens: 1999997102
+  val_tokens: 20000000
+  seed: 1337
+training:
+  device: auto
+  dtype: auto
+  compile: true
+  batch_size: 1
+  sequence_length: 16384
+  gradient_accumulation_steps: 1
+  max_steps: 77500
+  learning_rate: 1.5e-4
+  min_lr_ratio: 0.1
+  warmup_steps: 1000
+  weight_decay: 0.1
+  grad_clip: 1.0
+  fused_optimizer: true
+  log_interval: 25
+  eval_interval: 500
+  eval_batches: 8
+  checkpoint_interval: 1000
+  seed: 1337
+  output_dir: runs/blend_16384/all_softmax_nope_wiki50

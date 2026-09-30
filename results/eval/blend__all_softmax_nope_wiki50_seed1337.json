@@ -1,0 +1,10 @@
+{
+  "loss": 4.167978513985872,
+  "perplexity": 64.58476286381314,
+  "accuracy": 0.31425952911376953,
+  "tokens": 1048576,
+  "batches": 64,
+  "run": "runs/blend_16384/all_softmax_nope_wiki50_seed1337",
+  "batch_size": 1,
+  "sequence_length": 16384
+}

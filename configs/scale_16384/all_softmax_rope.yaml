@@ -1,0 +1,67 @@
+# 209M x 16K scale run (all_softmax_rope): 24L d768 12H, ctx 16384, 4 x 16384 = 65,536 tok/step,
+# 128,174 steps = 8.40B tokens (2x Chinchilla for 209M), 40B-token fineweb-edu corpus.
+# positional rope, rope_theta 500000 (chosen from the S6-S8 16K cells by scripts/scale_plan.py).
+model:
+  vocab_size: 50304
+  n_layers: 24
+  d_model: 768
+  n_heads: 12
+  context_length: 16384
+  positional: rope
+  rope_theta: 500000
+  bias: false
+  mlp: swiglu
+  attention: dilution
+  layer_attention:
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+  - softmax
+data:
+  synthetic: false
+  vocab_size: 50304
+  train_path: data/fineweb_edu_100bt_40b/train.bin
+  val_path: data/fineweb_edu_100bt_40b/val.bin
+  train_tokens: 40000000000
+  val_tokens: 20000000
+  seed: 1337
+training:
+  device: auto
+  dtype: auto
+  compile: true
+  batch_size: 4
+  sequence_length: 16384
+  gradient_accumulation_steps: 1
+  max_steps: 128174
+  learning_rate: 0.0006
+  min_lr_ratio: 0.1
+  warmup_steps: 1000
+  weight_decay: 0.1
+  grad_clip: 1.0
+  fused_optimizer: true
+  log_interval: 25
+  eval_interval: 1000
+  eval_batches: 8
+  checkpoint_interval: 1000
+  seed: 1337
+  output_dir: runs/scale_16384/all_softmax_rope

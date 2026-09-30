@@ -1,0 +1,10 @@
+{
+  "loss": 3.1745631396770477,
+  "perplexity": 23.916369472967972,
+  "accuracy": 0.40354347229003906,
+  "tokens": 524288,
+  "batches": 64,
+  "run": "runs/scale_1024/all_softmax_nope_1k_seed2357",
+  "batch_size": 8,
+  "sequence_length": 1024
+}

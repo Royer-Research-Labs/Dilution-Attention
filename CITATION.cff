@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use DilutionAttention, please cite this software."
+title: "DilutionAttention: a parameter-free attention operator that divides each bid by the demand its key has already absorbed"
+type: software
+authors:
+  - family-names: Royer
+    given-names: Nick
+    affiliation: "Royer Research Labs, LLC"
+version: 0.1.0
+license: Apache-2.0
+repository-code: "https://github.com/Royer-Research-Labs/dilution-attention"

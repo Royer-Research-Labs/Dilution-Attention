@@ -1,0 +1,43 @@
+# Operator-vs-NoPE control (S16): 64M ALL-SOFTMAX with no position encoding at ctx 16384,
+# trained with the exact Control B protocol of S15 (LR 3e-4, full cosine over 77,500 steps
+# = 1.27B tokens = 1.0x Chinchilla). Pairs against all_dilution_nope_chinchilla_lr3e4, which
+# retrieves 0.97 flat. Tests whether S13/S14's extrapolation belongs to the operator or to
+# the absence of RoPE (Kazemnejad et al. 2023; docs/related-work.md).
+model:
+  vocab_size: 50304
+  n_layers: 12
+  d_model: 512
+  n_heads: 8
+  context_length: 16384
+  positional: none
+  bias: false
+  mlp: swiglu
+  attention: softmax
+data:
+  synthetic: false
+  vocab_size: 50304
+  train_path: data/fineweb_edu_100bt_40b/train.bin
+  val_path: data/fineweb_edu_100bt_40b/val.bin
+  train_tokens: 40000000000
+  val_tokens: 20000000
+  seed: 1337
+training:
+  device: auto
+  dtype: auto
+  compile: true
+  batch_size: 1
+  sequence_length: 16384
+  gradient_accumulation_steps: 1
+  max_steps: 77500
+  learning_rate: 3e-4
+  min_lr_ratio: 0.1
+  warmup_steps: 1000
+  weight_decay: 0.1
+  grad_clip: 1.0
+  fused_optimizer: true
+  log_interval: 25
+  eval_interval: 500
+  eval_batches: 8
+  checkpoint_interval: 1000
+  seed: 1337
+  output_dir: runs/nope_16384/all_softmax_nope_chinchilla_lr3e4

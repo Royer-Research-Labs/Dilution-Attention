@@ -1,0 +1,42 @@
+# Operator control at 209M (S17): 24L d768 ALL-SOFTMAX with NO position encoding, ctx 16384,
+# LR 6e-4 (matches the dilution NoPE arm's rate; 3e-4 is already stable at 209M). Pairs against all_dilution_nope (S13/S14: 1.00 in context, flat to 8x, two seeds).
+# 6e-4 (the 209M protocol) is not attempted: softmax+NoPE diverged at 3e-4 at 64M (S16).
+model:
+  vocab_size: 50304
+  n_layers: 24
+  d_model: 768
+  n_heads: 12
+  context_length: 16384
+  positional: none
+  rope_theta: 500000
+  bias: false
+  mlp: swiglu
+  attention: softmax
+data:
+  synthetic: false
+  vocab_size: 50304
+  train_path: data/fineweb_edu_100bt_40b/train.bin
+  val_path: data/fineweb_edu_100bt_40b/val.bin
+  train_tokens: 40000000000
+  val_tokens: 20000000
+  seed: 1337
+training:
+  device: auto
+  dtype: auto
+  compile: true
+  batch_size: 2
+  sequence_length: 16384
+  gradient_accumulation_steps: 2
+  max_steps: 128174
+  learning_rate: 6e-4
+  min_lr_ratio: 0.1
+  warmup_steps: 1000
+  weight_decay: 0.1
+  grad_clip: 1.0
+  fused_optimizer: true
+  log_interval: 25
+  eval_interval: 1000
+  eval_batches: 8
+  checkpoint_interval: 1000
+  seed: 1337
+  output_dir: runs/scale_16384/all_softmax_nope_lr6e-4

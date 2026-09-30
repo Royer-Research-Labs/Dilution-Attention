@@ -1,0 +1,44 @@
+# 209M short-context study (S19): softmax with RoPE 5e5 -- the practical strong baseline.
+# 24L d768 12H at ctx 1024, 32 x 2 x 1024 = 65,536 tok/step, the same 128,174-step 2x
+# cosine as the 16K runs, stopped at the 1x checkpoint (step 64,000 = 4.19B tokens).
+# The loss margin is strongly context-dependent (0.011 at 1K vs 0.458 at 16K, S1);
+# every 209M arm so far is at 16K, so this measures the other end of that curve.
+model:
+  vocab_size: 50304
+  n_layers: 24
+  d_model: 768
+  n_heads: 12
+  context_length: 1024
+  positional: rope
+  rope_theta: 500000
+  bias: false
+  mlp: swiglu
+  attention: softmax
+data:
+  synthetic: false
+  vocab_size: 50304
+  train_path: data/fineweb_edu_100bt_40b/train.bin
+  val_path: data/fineweb_edu_100bt_40b/val.bin
+  train_tokens: 40000000000
+  val_tokens: 20000000
+  seed: 1337
+training:
+  device: auto
+  dtype: auto
+  compile: true
+  batch_size: 32
+  sequence_length: 1024
+  gradient_accumulation_steps: 2
+  max_steps: 128174
+  learning_rate: 0.0006
+  min_lr_ratio: 0.1
+  warmup_steps: 1000
+  weight_decay: 0.1
+  grad_clip: 1.0
+  fused_optimizer: true
+  log_interval: 25
+  eval_interval: 1000
+  eval_batches: 8
+  checkpoint_interval: 1000
+  seed: 1337
+  output_dir: runs/scale_1024/all_softmax_rope_1k

@@ -1,0 +1,15 @@
+# prepared corpora (build with `dilution-prepare-data`; see README) and training outputs
+data/
+runs/**/latest*.pt
+runs/**/*.pt
+results/generated/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+
+# export bookkeeping (release/export.py in the working repository)
+.release-manifest.json
+runs_repro/

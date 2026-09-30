@@ -1,0 +1,10 @@
+{
+  "loss": 3.611965347081423,
+  "perplexity": 37.038775377964335,
+  "accuracy": 0.37158870697021484,
+  "tokens": 1048576,
+  "batches": 64,
+  "run": "runs/nope_16384/all_softmax_rope_theta5e5_chinchilla_lr3e4_seed2357",
+  "batch_size": 1,
+  "sequence_length": 16384
+}

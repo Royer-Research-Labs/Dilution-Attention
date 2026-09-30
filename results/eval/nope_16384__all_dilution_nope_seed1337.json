@@ -1,0 +1,10 @@
+{
+  "loss": 3.675665996968746,
+  "perplexity": 39.474938293795645,
+  "accuracy": 0.36712074279785156,
+  "tokens": 1048576,
+  "batches": 64,
+  "run": "runs/nope_16384/all_dilution_nope_seed1337",
+  "batch_size": 1,
+  "sequence_length": 16384
+}

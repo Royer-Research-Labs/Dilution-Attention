@@ -1,0 +1,552 @@
+[
+  {
+    "task": "niah",
+    "accuracy": 0.6428571428571429,
+    "total": 140,
+    "correct": 90,
+    "duration_s": 0.863971471786499,
+    "context_length": 256,
+    "length_basis": "input",
+    "input_length_max": 256,
+    "input_length_min": 256,
+    "haystack_length_mean": 244.0,
+    "placements_per_needle": 20,
+    "num_needles": 8,
+    "evaluated_needles": 7,
+    "disqualified_needles": 1,
+    "avg_retrieval_gap_ll": 0.8507358976772853,
+    "avg_margin_avg": 0.8507358976772853,
+    "avg_prior_adjusted_lift_ll": 4.395378754820142,
+    "avg_pass_accuracy": 0.6428571428571429,
+    "early_accuracy": 0.46938775510204084,
+    "early_total": 49,
+    "mid_accuracy": 0.7380952380952381,
+    "mid_total": 42,
+    "late_accuracy": 0.7346938775510204,
+    "late_total": 49,
+    "provenance": {
+      "harness": {
+        "repository": "https://github.com/Royer-Research-Labs/Niah",
+        "spec_version": "niah-v4-spec",
+        "commit": "7cbf29fff8413c9a9cded263e3528daa0666a373",
+        "dirty": false
+      },
+      "checkpoint": {
+        "path": "runs/nope_16384/all_softmax_nope_chinchilla_lr1.5e-4_seed1337/latest.pt",
+        "bytes": 762261164,
+        "sha256": "371c9c4575ced8971c1c1fbc11b91f1b490ef51a3af9d7d374c23d56351fc577",
+        "step": 77500
+      },
+      "eval": {
+        "num_needles": 8,
+        "samples": 20,
+        "seed": 42,
+        "tokenizer": "gpt2",
+        "dtype": "bfloat16",
+        "context_override": null,
+        "ntk": false,
+        "trained_context": 16384
+      }
+    }
+  },
+  {
+    "task": "niah",
+    "accuracy": 0.7214285714285714,
+    "total": 140,
+    "correct": 101,
+    "duration_s": 0.7445497512817383,
+    "context_length": 512,
+    "length_basis": "input",
+    "input_length_max": 512,
+    "input_length_min": 512,
+    "haystack_length_mean": 500.0,
+    "placements_per_needle": 20,
+    "num_needles": 8,
+    "evaluated_needles": 7,
+    "disqualified_needles": 1,
+    "avg_retrieval_gap_ll": 1.074439992223467,
+    "avg_margin_avg": 1.074439992223467,
+    "avg_prior_adjusted_lift_ll": 4.694975706509181,
+    "avg_pass_accuracy": 0.7214285714285714,
+    "early_accuracy": 0.5510204081632653,
+    "early_total": 49,
+    "mid_accuracy": 0.7380952380952381,
+    "mid_total": 42,
+    "late_accuracy": 0.8775510204081632,
+    "late_total": 49,
+    "provenance": {
+      "harness": {
+        "repository": "https://github.com/Royer-Research-Labs/Niah",
+        "spec_version": "niah-v4-spec",
+        "commit": "7cbf29fff8413c9a9cded263e3528daa0666a373",
+        "dirty": false
+      },
+      "checkpoint": {
+        "path": "runs/nope_16384/all_softmax_nope_chinchilla_lr1.5e-4_seed1337/latest.pt",
+        "bytes": 762261164,
+        "sha256": "371c9c4575ced8971c1c1fbc11b91f1b490ef51a3af9d7d374c23d56351fc577",
+        "step": 77500
+      },
+      "eval": {
+        "num_needles": 8,
+        "samples": 20,
+        "seed": 42,
+        "tokenizer": "gpt2",
+        "dtype": "bfloat16",
+        "context_override": null,
+        "ntk": false,
+        "trained_context": 16384
+      }
+    }
+  },
+  {
+    "task": "niah",
+    "accuracy": 0.65,
+    "total": 140,
+    "correct": 91,
+    "duration_s": 0.8134350776672363,
+    "context_length": 896,
+    "length_basis": "input",
+    "input_length_max": 896,
+    "input_length_min": 896,
+    "haystack_length_mean": 884.0,
+    "placements_per_needle": 20,
+    "num_needles": 8,
+    "evaluated_needles": 7,
+    "disqualified_needles": 1,
+    "avg_retrieval_gap_ll": 0.6182588832718986,
+    "avg_margin_avg": 0.6182588832718986,
+    "avg_prior_adjusted_lift_ll": 4.388348168986184,
+    "avg_pass_accuracy": 0.65,
+    "early_accuracy": 0.6326530612244898,
+    "early_total": 49,
+    "mid_accuracy": 0.7619047619047619,
+    "mid_total": 42,
+    "late_accuracy": 0.5714285714285714,
+    "late_total": 49,
+    "provenance": {
+      "harness": {
+        "repository": "https://github.com/Royer-Research-Labs/Niah",
+        "spec_version": "niah-v4-spec",
+        "commit": "7cbf29fff8413c9a9cded263e3528daa0666a373",
+        "dirty": false
+      },
+      "checkpoint": {
+        "path": "runs/nope_16384/all_softmax_nope_chinchilla_lr1.5e-4_seed1337/latest.pt",
+        "bytes": 762261164,
+        "sha256": "371c9c4575ced8971c1c1fbc11b91f1b490ef51a3af9d7d374c23d56351fc577",
+        "step": 77500
+      },
+      "eval": {
+        "num_needles": 8,
+        "samples": 20,
+        "seed": 42,
+        "tokenizer": "gpt2",
+        "dtype": "bfloat16",
+        "context_override": null,
+        "ntk": false,
+        "trained_context": 16384
+      }
+    }
+  },
+  {
+    "task": "niah",
+    "accuracy": 0.6714285714285714,
+    "total": 140,
+    "correct": 94,
+    "duration_s": 1.0955989360809326,
+    "context_length": 1024,
+    "length_basis": "input",
+    "input_length_max": 1024,
+    "input_length_min": 1024,
+    "haystack_length_mean": 1012.0,
+    "placements_per_needle": 20,
+    "num_needles": 8,
+    "evaluated_needles": 7,
+    "disqualified_needles": 1,
+    "avg_retrieval_gap_ll": 0.651797924722944,
+    "avg_margin_avg": 0.651797924722944,
+    "avg_prior_adjusted_lift_ll": 4.4598331621715,
+    "avg_pass_accuracy": 0.6714285714285714,
+    "early_accuracy": 0.6122448979591837,
+    "early_total": 49,
+    "mid_accuracy": 0.6428571428571429,
+    "mid_total": 42,
+    "late_accuracy": 0.7551020408163265,
+    "late_total": 49,
+    "provenance": {
+      "harness": {
+        "repository": "https://github.com/Royer-Research-Labs/Niah",
+        "spec_version": "niah-v4-spec",
+        "commit": "7cbf29fff8413c9a9cded263e3528daa0666a373",
+        "dirty": false
+      },
+      "checkpoint": {
+        "path": "runs/nope_16384/all_softmax_nope_chinchilla_lr1.5e-4_seed1337/latest.pt",
+        "bytes": 762261164,
+        "sha256": "371c9c4575ced8971c1c1fbc11b91f1b490ef51a3af9d7d374c23d56351fc577",
+        "step": 77500
+      },
+      "eval": {
+        "num_needles": 8,
+        "samples": 20,
+        "seed": 42,
+        "tokenizer": "gpt2",
+        "dtype": "bfloat16",
+        "context_override": null,
+        "ntk": false,
+        "trained_context": 16384
+      }
+    }
+  },
+  {
+    "task": "niah",
+    "accuracy": 0.5142857142857142,
+    "total": 140,
+    "correct": 72,
+    "duration_s": 1.0966582298278809,
+    "context_length": 1920,
+    "length_basis": "input",
+    "input_length_max": 1920,
+    "input_length_min": 1920,
+    "haystack_length_mean": 1908.0,
+    "placements_per_needle": 20,
+    "num_needles": 8,
+    "evaluated_needles": 7,
+    "disqualified_needles": 1,
+    "avg_retrieval_gap_ll": -0.24832588945116316,
+    "avg_margin_avg": -0.24832588945116316,
+    "avg_prior_adjusted_lift_ll": 3.6914067302431377,
+    "avg_pass_accuracy": 0.5142857142857142,
+    "early_accuracy": 0.5102040816326531,
+    "early_total": 49,
+    "mid_accuracy": 0.5476190476190477,
+    "mid_total": 42,
+    "late_accuracy": 0.4897959183673469,
+    "late_total": 49,
+    "provenance": {
+      "harness": {
+        "repository": "https://github.com/Royer-Research-Labs/Niah",
+        "spec_version": "niah-v4-spec",
+        "commit": "7cbf29fff8413c9a9cded263e3528daa0666a373",
+        "dirty": false
+      },
+      "checkpoint": {
+        "path": "runs/nope_16384/all_softmax_nope_chinchilla_lr1.5e-4_seed1337/latest.pt",
+        "bytes": 762261164,
+        "sha256": "371c9c4575ced8971c1c1fbc11b91f1b490ef51a3af9d7d374c23d56351fc577",
+        "step": 77500
+      },
+      "eval": {
+        "num_needles": 8,
+        "samples": 20,
+        "seed": 42,
+        "tokenizer": "gpt2",
+        "dtype": "bfloat16",
+        "context_override": null,
+        "ntk": false,
+        "trained_context": 16384
+      }
+    }
+  },
+  {
+    "task": "niah",
+    "accuracy": 0.6285714285714286,
+    "total": 140,
+    "correct": 88,
+    "duration_s": 1.321423053741455,
+    "context_length": 3072,
+    "length_basis": "input",
+    "input_length_max": 3072,
+    "input_length_min": 3072,
+    "haystack_length_mean": 3060.0,
+    "placements_per_needle": 20,
+    "num_needles": 8,
+    "evaluated_needles": 7,
+    "disqualified_needles": 1,
+    "avg_retrieval_gap_ll": -0.008482134342193604,
+    "avg_margin_avg": -0.008482134342193604,
+    "avg_prior_adjusted_lift_ll": 3.7727678656578063,
+    "avg_pass_accuracy": 0.6285714285714286,
+    "early_accuracy": 0.4897959183673469,
+    "early_total": 49,
+    "mid_accuracy": 0.7142857142857143,
+    "mid_total": 42,
+    "late_accuracy": 0.6938775510204082,
+    "late_total": 49,
+    "provenance": {
+      "harness": {
+        "repository": "https://github.com/Royer-Research-Labs/Niah",
+        "spec_version": "niah-v4-spec",
+        "commit": "7cbf29fff8413c9a9cded263e3528daa0666a373",
+        "dirty": false
+      },
+      "checkpoint": {
+        "path": "runs/nope_16384/all_softmax_nope_chinchilla_lr1.5e-4_seed1337/latest.pt",
+        "bytes": 762261164,
+        "sha256": "371c9c4575ced8971c1c1fbc11b91f1b490ef51a3af9d7d374c23d56351fc577",
+        "step": 77500
+      },
+      "eval": {
+        "num_needles": 8,
+        "samples": 20,
+        "seed": 42,
+        "tokenizer": "gpt2",
+        "dtype": "bfloat16",
+        "context_override": null,
+        "ntk": false,
+        "trained_context": 16384
+      }
+    }
+  },
+  {
+    "task": "niah",
+    "accuracy": 0.5714285714285714,
+    "total": 140,
+    "correct": 80,
+    "duration_s": 1.4495069980621338,
+    "context_length": 3840,
+    "length_basis": "input",
+    "input_length_max": 3840,
+    "input_length_min": 3840,
+    "haystack_length_mean": 3828.0,
+    "placements_per_needle": 20,
+    "num_needles": 8,
+    "evaluated_needles": 7,
+    "disqualified_needles": 1,
+    "avg_retrieval_gap_ll": -0.21403458799634661,
+    "avg_margin_avg": -0.21403458799634661,
+    "avg_prior_adjusted_lift_ll": 4.073911840575082,
+    "avg_pass_accuracy": 0.5714285714285714,
+    "early_accuracy": 0.46938775510204084,
+    "early_total": 49,
+    "mid_accuracy": 0.6904761904761905,
+    "mid_total": 42,
+    "late_accuracy": 0.5714285714285714,
+    "late_total": 49,
+    "provenance": {
+      "harness": {
+        "repository": "https://github.com/Royer-Research-Labs/Niah",
+        "spec_version": "niah-v4-spec",
+        "commit": "7cbf29fff8413c9a9cded263e3528daa0666a373",
+        "dirty": false
+      },
+      "checkpoint": {
+        "path": "runs/nope_16384/all_softmax_nope_chinchilla_lr1.5e-4_seed1337/latest.pt",
+        "bytes": 762261164,
+        "sha256": "371c9c4575ced8971c1c1fbc11b91f1b490ef51a3af9d7d374c23d56351fc577",
+        "step": 77500
+      },
+      "eval": {
+        "num_needles": 8,
+        "samples": 20,
+        "seed": 42,
+        "tokenizer": "gpt2",
+        "dtype": "bfloat16",
+        "context_override": null,
+        "ntk": false,
+        "trained_context": 16384
+      }
+    }
+  },
+  {
+    "task": "niah",
+    "accuracy": 0.2714285714285714,
+    "total": 140,
+    "correct": 38,
+    "duration_s": 1.9848966598510742,
+    "context_length": 6144,
+    "length_basis": "input",
+    "input_length_max": 6144,
+    "input_length_min": 6144,
+    "haystack_length_mean": 6132.0,
+    "placements_per_needle": 20,
+    "num_needles": 8,
+    "evaluated_needles": 7,
+    "disqualified_needles": 1,
+    "avg_retrieval_gap_ll": -0.9512834855488368,
+    "avg_margin_avg": -0.9512834855488368,
+    "avg_prior_adjusted_lift_ll": 3.709430800165449,
+    "avg_pass_accuracy": 0.2714285714285714,
+    "early_accuracy": 0.16326530612244897,
+    "early_total": 49,
+    "mid_accuracy": 0.2619047619047619,
+    "mid_total": 42,
+    "late_accuracy": 0.3877551020408163,
+    "late_total": 49,
+    "provenance": {
+      "harness": {
+        "repository": "https://github.com/Royer-Research-Labs/Niah",
+        "spec_version": "niah-v4-spec",
+        "commit": "7cbf29fff8413c9a9cded263e3528daa0666a373",
+        "dirty": false
+      },
+      "checkpoint": {
+        "path": "runs/nope_16384/all_softmax_nope_chinchilla_lr1.5e-4_seed1337/latest.pt",
+        "bytes": 762261164,
+        "sha256": "371c9c4575ced8971c1c1fbc11b91f1b490ef51a3af9d7d374c23d56351fc577",
+        "step": 77500
+      },
+      "eval": {
+        "num_needles": 8,
+        "samples": 20,
+        "seed": 42,
+        "tokenizer": "gpt2",
+        "dtype": "bfloat16",
+        "context_override": null,
+        "ntk": false,
+        "trained_context": 16384
+      }
+    }
+  },
+  {
+    "task": "niah",
+    "accuracy": 0.21428571428571427,
+    "total": 140,
+    "correct": 30,
+    "duration_s": 2.467888116836548,
+    "context_length": 7936,
+    "length_basis": "input",
+    "input_length_max": 7936,
+    "input_length_min": 7936,
+    "haystack_length_mean": 7924.0,
+    "placements_per_needle": 20,
+    "num_needles": 8,
+    "evaluated_needles": 7,
+    "disqualified_needles": 1,
+    "avg_retrieval_gap_ll": -1.1466517925262452,
+    "avg_margin_avg": -1.1466517925262452,
+    "avg_prior_adjusted_lift_ll": 3.6781249931880406,
+    "avg_pass_accuracy": 0.21428571428571427,
+    "early_accuracy": 0.16326530612244897,
+    "early_total": 49,
+    "mid_accuracy": 0.2619047619047619,
+    "mid_total": 42,
+    "late_accuracy": 0.22448979591836735,
+    "late_total": 49,
+    "provenance": {
+      "harness": {
+        "repository": "https://github.com/Royer-Research-Labs/Niah",
+        "spec_version": "niah-v4-spec",
+        "commit": "7cbf29fff8413c9a9cded263e3528daa0666a373",
+        "dirty": false
+      },
+      "checkpoint": {
+        "path": "runs/nope_16384/all_softmax_nope_chinchilla_lr1.5e-4_seed1337/latest.pt",
+        "bytes": 762261164,
+        "sha256": "371c9c4575ced8971c1c1fbc11b91f1b490ef51a3af9d7d374c23d56351fc577",
+        "step": 77500
+      },
+      "eval": {
+        "num_needles": 8,
+        "samples": 20,
+        "seed": 42,
+        "tokenizer": "gpt2",
+        "dtype": "bfloat16",
+        "context_override": null,
+        "ntk": false,
+        "trained_context": 16384
+      }
+    }
+  },
+  {
+    "task": "niah",
+    "accuracy": 0.25,
+    "total": 140,
+    "correct": 35,
+    "duration_s": 4.033924102783203,
+    "context_length": 12288,
+    "length_basis": "input",
+    "input_length_max": 12288,
+    "input_length_min": 12288,
+    "haystack_length_mean": 12276.0,
+    "placements_per_needle": 20,
+    "num_needles": 8,
+    "evaluated_needles": 7,
+    "disqualified_needles": 1,
+    "avg_retrieval_gap_ll": -1.2229910748345512,
+    "avg_margin_avg": -1.2229910748345512,
+    "avg_prior_adjusted_lift_ll": 3.5627232108797346,
+    "avg_pass_accuracy": 0.25,
+    "early_accuracy": 0.22448979591836735,
+    "early_total": 49,
+    "mid_accuracy": 0.21428571428571427,
+    "mid_total": 42,
+    "late_accuracy": 0.30612244897959184,
+    "late_total": 49,
+    "provenance": {
+      "harness": {
+        "repository": "https://github.com/Royer-Research-Labs/Niah",
+        "spec_version": "niah-v4-spec",
+        "commit": "7cbf29fff8413c9a9cded263e3528daa0666a373",
+        "dirty": false
+      },
+      "checkpoint": {
+        "path": "runs/nope_16384/all_softmax_nope_chinchilla_lr1.5e-4_seed1337/latest.pt",
+        "bytes": 762261164,
+        "sha256": "371c9c4575ced8971c1c1fbc11b91f1b490ef51a3af9d7d374c23d56351fc577",
+        "step": 77500
+      },
+      "eval": {
+        "num_needles": 8,
+        "samples": 20,
+        "seed": 42,
+        "tokenizer": "gpt2",
+        "dtype": "bfloat16",
+        "context_override": null,
+        "ntk": false,
+        "trained_context": 16384
+      }
+    }
+  },
+  {
+    "task": "niah",
+    "accuracy": 0.20714285714285716,
+    "total": 140,
+    "correct": 29,
+    "duration_s": 5.470422267913818,
+    "context_length": 16000,
+    "length_basis": "input",
+    "input_length_max": 16000,
+    "input_length_min": 16000,
+    "haystack_length_mean": 15988.0,
+    "placements_per_needle": 20,
+    "num_needles": 8,
+    "evaluated_needles": 7,
+    "disqualified_needles": 1,
+    "avg_retrieval_gap_ll": -1.3606026785714285,
+    "avg_margin_avg": -1.3606026785714285,
+    "avg_prior_adjusted_lift_ll": 3.9239955357142855,
+    "avg_pass_accuracy": 0.20714285714285716,
+    "early_accuracy": 0.22448979591836735,
+    "early_total": 49,
+    "mid_accuracy": 0.19047619047619047,
+    "mid_total": 42,
+    "late_accuracy": 0.20408163265306123,
+    "late_total": 49,
+    "provenance": {
+      "harness": {
+        "repository": "https://github.com/Royer-Research-Labs/Niah",
+        "spec_version": "niah-v4-spec",
+        "commit": "7cbf29fff8413c9a9cded263e3528daa0666a373",
+        "dirty": false
+      },
+      "checkpoint": {
+        "path": "runs/nope_16384/all_softmax_nope_chinchilla_lr1.5e-4_seed1337/latest.pt",
+        "bytes": 762261164,
+        "sha256": "371c9c4575ced8971c1c1fbc11b91f1b490ef51a3af9d7d374c23d56351fc577",
+        "step": 77500
+      },
+      "eval": {
+        "num_needles": 8,
+        "samples": 20,
+        "seed": 42,
+        "tokenizer": "gpt2",
+        "dtype": "bfloat16",
+        "context_override": null,
+        "ntk": false,
+        "trained_context": 16384
+      }
+    }
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "kind": "prepared_uint16",
+  "splits": {
+    "train": {
+      "kind": "prepared_uint16",
+      "manifest_copy": "runs/eqtime_tuned/all_dilution_8192_240m_lr6e-4_seed1337/data_manifest.json",
+      "manifest_copy_sha256": "da3db0e9a87d79f2b53558726147f545e58e57283a98e135a3a94f3c90ffb9f9",
+      "manifest_path": "data/fineweb_edu_10bt_4b/manifest.json",
+      "manifest_sha256": "da3db0e9a87d79f2b53558726147f545e58e57283a98e135a3a94f3c90ffb9f9",
+      "manifest_split": "train",
+      "num_bytes": 8000000000,
+      "num_tokens": 4000000000,
+      "sha256": "f7dee5dec76bd55135abb15a985f060c8fec4f1162e63099ce4abd5f0f61a232",
+      "split": "train",
+      "token_path": "data/fineweb_edu_10bt_4b/train.bin"
+    },
+    "val": {
+      "kind": "prepared_uint16",
+      "manifest_copy": "runs/eqtime_tuned/all_dilution_8192_240m_lr6e-4_seed1337/data_manifest.json",
+      "manifest_copy_sha256": "da3db0e9a87d79f2b53558726147f545e58e57283a98e135a3a94f3c90ffb9f9",
+      "manifest_path": "data/fineweb_edu_10bt_4b/manifest.json",
+      "manifest_sha256": "da3db0e9a87d79f2b53558726147f545e58e57283a98e135a3a94f3c90ffb9f9",
+      "manifest_split": "validation",
+      "num_bytes": 10000000,
+      "num_tokens": 5000000,
+      "sha256": "c51aa29d4bed96f947174085faa2ff3e0b02f38659e10d5d4dfdc85eaf334ac5",
+      "split": "val",
+      "token_path": "data/fineweb_edu_10bt_4b/val.bin"
+    }
+  }
+}

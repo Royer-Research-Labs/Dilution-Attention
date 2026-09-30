@@ -1,0 +1,38 @@
+# EQUAL WALL CLOCK, TUNED LR: the equal-wall-clock all_softmax_1024_785m.yaml run at the tuned learning-rate optimum from the ctx-8192 sweep for this operator (1.3e-3).
+model:
+  vocab_size: 50304
+  n_layers: 12
+  d_model: 512
+  n_heads: 8
+  context_length: 1024
+  bias: false
+  mlp: swiglu
+  attention: softmax
+data:
+  synthetic: false
+  vocab_size: 50304
+  train_path: data/fineweb_edu_10bt_4b/train.bin
+  val_path: data/fineweb_edu_10bt_4b/val.bin
+  train_tokens: 4000000000
+  val_tokens: 5000000
+  seed: 1337
+training:
+  device: auto
+  dtype: auto
+  compile: true
+  batch_size: 8
+  sequence_length: 1024
+  gradient_accumulation_steps: 2
+  max_steps: 47913
+  learning_rate: 1.3e-3
+  min_lr_ratio: 0.1
+  warmup_steps: 1000
+  weight_decay: 0.1
+  grad_clip: 1.0
+  fused_optimizer: true
+  log_interval: 25
+  eval_interval: 500
+  eval_batches: 8
+  checkpoint_interval: 1000
+  seed: 1337
+  output_dir: runs/eqtime_tuned/all_softmax_1024_785m_lr1.3e-3

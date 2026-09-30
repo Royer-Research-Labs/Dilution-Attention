@@ -1,0 +1,44 @@
+{
+  "manifest_version": 1,
+  "token_format": {
+    "dtype": "uint16",
+    "byte_order": "little",
+    "header_bytes": 0,
+    "bytes_per_token": 2
+  },
+  "source": {
+    "kind": "document-level blend",
+    "seed": 1337,
+    "components": [
+      {
+        "name": "wiki",
+        "path": "data/wikipedia_gpt2/train.bin",
+        "quota_tokens": 1000000000,
+        "documents": 1386047,
+        "tokens": 999999599,
+        "median_doc_tokens": 338
+      },
+      {
+        "name": "fineweb",
+        "path": "data/fineweb_edu_100bt_40b/train.bin",
+        "quota_tokens": 1000000000,
+        "documents": 962665,
+        "tokens": 999997503,
+        "median_doc_tokens": 628
+      }
+    ]
+  },
+  "split_policy": {
+    "document_level_shuffle": true,
+    "eot_token": 50256,
+    "note": "train only; use an existing validation file for comparable losses"
+  },
+  "splits": {
+    "train": {
+      "path": "train.bin",
+      "num_tokens": 1999997102,
+      "num_bytes": 3999994204,
+      "sha256": "397c882634d520ab59ec4f5f4858542cf8a3ebb6c75fd0d8fc70f81ba1d52aca"
+    }
+  }
+}

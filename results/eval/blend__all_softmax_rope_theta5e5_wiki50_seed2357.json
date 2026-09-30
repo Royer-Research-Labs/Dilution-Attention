@@ -1,0 +1,10 @@
+{
+  "loss": 3.6652009151875973,
+  "perplexity": 39.063983922364,
+  "accuracy": 0.3667316436767578,
+  "tokens": 1048576,
+  "batches": 64,
+  "run": "runs/blend_16384/all_softmax_rope_theta5e5_wiki50_seed2357",
+  "batch_size": 1,
+  "sequence_length": 16384
+}

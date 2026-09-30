@@ -1,0 +1,10 @@
+{
+  "loss": 3.6620930954813957,
+  "perplexity": 38.94276855863902,
+  "accuracy": 0.3659353256225586,
+  "tokens": 1048576,
+  "batches": 64,
+  "run": "runs/blend_16384/all_dilution_nope_wiki50_seed2357",
+  "batch_size": 1,
+  "sequence_length": 16384
+}

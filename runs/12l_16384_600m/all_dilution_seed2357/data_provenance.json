@@ -1,0 +1,31 @@
+{
+  "kind": "prepared_uint16",
+  "splits": {
+    "train": {
+      "kind": "prepared_uint16",
+      "manifest_copy": "runs/12l_16384_600m/all_dilution_seed2357/data_manifest.json",
+      "manifest_copy_sha256": "ad4a56313b9024327991917698f44f68a2ae3d7e3e4132d74b9078ebd72f4b1f",
+      "manifest_path": "data/fineweb_edu_10bt_1b/manifest.json",
+      "manifest_sha256": "ad4a56313b9024327991917698f44f68a2ae3d7e3e4132d74b9078ebd72f4b1f",
+      "manifest_split": "train",
+      "num_bytes": 2000000000,
+      "num_tokens": 1000000000,
+      "sha256": "e418b27421d41231765a27640a28347afae33f0538b5a87b134f0016602ece8a",
+      "split": "train",
+      "token_path": "data/fineweb_edu_10bt_1b/train.bin"
+    },
+    "val": {
+      "kind": "prepared_uint16",
+      "manifest_copy": "runs/12l_16384_600m/all_dilution_seed2357/data_manifest.json",
+      "manifest_copy_sha256": "ad4a56313b9024327991917698f44f68a2ae3d7e3e4132d74b9078ebd72f4b1f",
+      "manifest_path": "data/fineweb_edu_10bt_1b/manifest.json",
+      "manifest_sha256": "ad4a56313b9024327991917698f44f68a2ae3d7e3e4132d74b9078ebd72f4b1f",
+      "manifest_split": "validation",
+      "num_bytes": 10000000,
+      "num_tokens": 5000000,
+      "sha256": "c51aa29d4bed96f947174085faa2ff3e0b02f38659e10d5d4dfdc85eaf334ac5",
+      "split": "val",
+      "token_path": "data/fineweb_edu_10bt_1b/val.bin"
+    }
+  }
+}

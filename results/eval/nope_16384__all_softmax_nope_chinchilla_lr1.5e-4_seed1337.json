@@ -1,0 +1,10 @@
+{
+  "loss": 4.084633130580187,
+  "perplexity": 59.42013432177882,
+  "accuracy": 0.3214874267578125,
+  "tokens": 1048576,
+  "batches": 64,
+  "run": "runs/nope_16384/all_softmax_nope_chinchilla_lr1.5e-4_seed1337",
+  "batch_size": 1,
+  "sequence_length": 16384
+}

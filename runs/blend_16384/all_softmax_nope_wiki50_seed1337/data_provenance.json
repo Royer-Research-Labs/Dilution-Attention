@@ -1,0 +1,31 @@
+{
+  "kind": "prepared_uint16",
+  "splits": {
+    "train": {
+      "kind": "prepared_uint16",
+      "manifest_copy": "runs/blend_16384/all_softmax_nope_wiki50_seed1337/data_manifest_train.json",
+      "manifest_copy_sha256": "50149ad83ab76eb05f562a1807a83fd07fb1e9e96917a737c77df4fbdefa06c1",
+      "manifest_path": "data/wiki50_fineweb50_2b/manifest.json",
+      "manifest_sha256": "50149ad83ab76eb05f562a1807a83fd07fb1e9e96917a737c77df4fbdefa06c1",
+      "manifest_split": "train",
+      "num_bytes": 3999994204,
+      "num_tokens": 1999997102,
+      "sha256": "397c882634d520ab59ec4f5f4858542cf8a3ebb6c75fd0d8fc70f81ba1d52aca",
+      "split": "train",
+      "token_path": "data/wiki50_fineweb50_2b/train.bin"
+    },
+    "val": {
+      "kind": "prepared_uint16",
+      "manifest_copy": "runs/blend_16384/all_softmax_nope_wiki50_seed1337/data_manifest_val.json",
+      "manifest_copy_sha256": "8ba2e211a7ea8fff9c93511b34dae334cc073b400401c7b94a024f0b05088bf9",
+      "manifest_path": "data/fineweb_edu_100bt_40b/manifest.json",
+      "manifest_sha256": "8ba2e211a7ea8fff9c93511b34dae334cc073b400401c7b94a024f0b05088bf9",
+      "manifest_split": "validation",
+      "num_bytes": 40000000,
+      "num_tokens": 20000000,
+      "sha256": "4c1608261b6883992c5f9db5f5c73c95af6d5982a368e672215d19e855fae074",
+      "split": "val",
+      "token_path": "data/fineweb_edu_100bt_40b/val.bin"
+    }
+  }
+}

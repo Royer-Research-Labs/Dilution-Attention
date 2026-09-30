@@ -1,0 +1,67 @@
+# 209M x 16K scale run (all_dilution_nope): 24L d768 12H all-dilution, NO position signal, ctx 16384,
+# 2 x 2 (grad accum) x 16384 = 65,536 tok/step, same 128,174-step schedule as the pair (run to the 1x checkpoint).
+# Tests whether scale and tokens strengthen dilution's length extrapolation with nothing to NTK-scale (S12 follow-up).
+model:
+  vocab_size: 50304
+  n_layers: 24
+  d_model: 768
+  n_heads: 12
+  context_length: 16384
+  positional: none
+  rope_theta: 500000
+  bias: false
+  mlp: swiglu
+  attention: dilution
+  layer_attention:
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+data:
+  synthetic: false
+  vocab_size: 50304
+  train_path: data/fineweb_edu_100bt_40b/train.bin
+  val_path: data/fineweb_edu_100bt_40b/val.bin
+  train_tokens: 40000000000
+  val_tokens: 20000000
+  seed: 1337
+training:
+  device: auto
+  dtype: auto
+  compile: true
+  batch_size: 2
+  sequence_length: 16384
+  gradient_accumulation_steps: 2
+  max_steps: 128174
+  learning_rate: 0.0006
+  min_lr_ratio: 0.1
+  warmup_steps: 1000
+  weight_decay: 0.1
+  grad_clip: 1.0
+  fused_optimizer: true
+  log_interval: 25
+  eval_interval: 1000
+  eval_batches: 8
+  checkpoint_interval: 1000
+  seed: 1337
+  output_dir: runs/scale_16384/all_dilution_nope

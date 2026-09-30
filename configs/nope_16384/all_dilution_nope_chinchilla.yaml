@@ -1,0 +1,56 @@
+# Confound test (S15): the unchanged 64M all-dilution NoPE model at ctx 16384 under the
+# 209M protocol -- a 2x Chinchilla cosine (155,000 steps = 2.54B tokens,
+# LR 6e-4, 1,000 warmup) STOPPED at the 1x checkpoint (step 77,500 = 1.27B
+# tokens), so it sits at the same schedule fraction and LR as the 209M runs of S11/S13.
+# S6's 0.50 retrieval at 16000 and S13's 1.00 differ in BOTH params and tokens; this isolates tokens.
+model:
+  vocab_size: 50304
+  n_layers: 12
+  d_model: 512
+  n_heads: 8
+  context_length: 16384
+  positional: none
+  bias: false
+  mlp: swiglu
+  attention: dilution
+  layer_attention:
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+  - dilution
+data:
+  synthetic: false
+  vocab_size: 50304
+  train_path: data/fineweb_edu_100bt_40b/train.bin
+  val_path: data/fineweb_edu_100bt_40b/val.bin
+  train_tokens: 40000000000
+  val_tokens: 20000000
+  seed: 1337
+training:
+  device: auto
+  dtype: auto
+  compile: true
+  batch_size: 1
+  sequence_length: 16384
+  gradient_accumulation_steps: 1
+  max_steps: 155000
+  learning_rate: 6e-4
+  min_lr_ratio: 0.1
+  warmup_steps: 1000
+  weight_decay: 0.1
+  grad_clip: 1.0
+  fused_optimizer: true
+  log_interval: 25
+  eval_interval: 500
+  eval_batches: 8
+  checkpoint_interval: 1000
+  seed: 1337
+  output_dir: runs/nope_16384/all_dilution_nope_chinchilla
