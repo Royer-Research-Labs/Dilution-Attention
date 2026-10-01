@@ -189,7 +189,8 @@ def card(name, spec, org, model, ckpt_meta):
         "## Citation", "",
         "Cite the software release: Royer, N. (2026). DilutionAttention. Zenodo. "
         "[https://doi.org/10.5281/zenodo.23073037](https://doi.org/10.5281/zenodo.23073037) "
-        f"(BibTeX in the [README]({REPO}#citation) and [CITATION.cff]({REPO}/blob/main/CITATION.cff)).", "",
+        f"(BibTeX in the [README]({REPO}#citation) and [CITATION.cff]({REPO}/blob/main/CITATION.cff)). "
+        "Technical report: [https://doi.org/10.5281/zenodo.23073151](https://doi.org/10.5281/zenodo.23073151).", "",
     ]
     return "\n".join(lines)
 

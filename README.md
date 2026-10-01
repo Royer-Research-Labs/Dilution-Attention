@@ -281,6 +281,26 @@ Commands, the evaluation protocols and their caveats are in
 
 ## Citation
 
+The technical report ([PDF](docs/report/dilution-attention.pdf)) is archived at
+[10.5281/zenodo.23073151](https://doi.org/10.5281/zenodo.23073151):
+
+> Royer, N. (2026). *DilutionAttention: a parameter-free attention operator that divides each bid by the demand its key has already absorbed.* Technical report, version 0.1. Zenodo.
+> https://doi.org/10.5281/zenodo.23073151
+
+```bibtex
+@techreport{royer_dilutionattention_report_2026,
+  author      = {Royer, Nick},
+  title       = {DilutionAttention: a parameter-free attention operator that divides each bid by the
+                 demand its key has already absorbed},
+  institution = {Royer Research Labs, LLC},
+  type        = {Technical report},
+  number      = {version 0.1},
+  year        = {2026},
+  publisher   = {Zenodo},
+  doi         = {10.5281/zenodo.23073151}
+}
+```
+
 Cite the software release (this DOI covers all versions; v0.1.0 is
 [10.5281/zenodo.23073038](https://doi.org/10.5281/zenodo.23073038)):
 

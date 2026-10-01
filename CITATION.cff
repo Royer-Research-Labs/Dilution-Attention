@@ -6,6 +6,7 @@ authors:
   - family-names: Royer
     given-names: Nick
     affiliation: "Royer Research Labs, LLC"
+    orcid: "https://orcid.org/0009-0009-8762-0432"
 version: 0.1.0
 date-released: 2026-10-01
 doi: 10.5281/zenodo.23073037
@@ -34,3 +35,15 @@ keywords:
   - length extrapolation
   - long context
   - position encoding
+references:
+  - type: report
+    title: "DilutionAttention: a parameter-free attention operator that divides each bid by the demand its key has already absorbed (technical report, version 0.1)"
+    authors:
+      - family-names: Royer
+        given-names: Nick
+        affiliation: "Royer Research Labs, LLC"
+        orcid: "https://orcid.org/0009-0009-8762-0432"
+    year: 2026
+    publisher:
+      name: Zenodo
+    doi: 10.5281/zenodo.23073151
