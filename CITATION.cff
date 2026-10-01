@@ -7,6 +7,15 @@ authors:
     given-names: Nick
     affiliation: "Royer Research Labs, LLC"
 version: 0.1.0
+date-released: 2026-10-01
+doi: 10.5281/zenodo.23073037
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23073037
+    description: All versions (resolves to the latest release)
+  - type: doi
+    value: 10.5281/zenodo.23073038
+    description: Release v0.1.0
 license: Apache-2.0
 repository-code: "https://github.com/Royer-Research-Labs/Dilution-Attention"
 abstract: >-

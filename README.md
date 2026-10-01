@@ -1,6 +1,7 @@
 # DilutionAttention
 
 [![tests](https://github.com/Royer-Research-Labs/Dilution-Attention/actions/workflows/tests.yml/badge.svg)](https://github.com/Royer-Research-Labs/Dilution-Attention/actions/workflows/tests.yml)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23073037.svg)](https://doi.org/10.5281/zenodo.23073037)
 
 A causal attention operator with **no learnable parameters**, in which each
 query's claim on a key is divided by the demand that key has already received
@@ -277,6 +278,26 @@ Commands, the evaluation protocols and their caveats are in
   alt6 recovers most of that while keeping in-context retrieval, but not the full
   extrapolation. A lower-level backward kernel is the open lever
   ([docs/kernels.md](docs/kernels.md)).
+
+## Citation
+
+Cite the software release (this DOI covers all versions; v0.1.0 is
+[10.5281/zenodo.23073038](https://doi.org/10.5281/zenodo.23073038)):
+
+> Royer, N. (2026). *DilutionAttention: a parameter-free attention operator that divides each bid
+> by the demand its key has already absorbed.* Zenodo. https://doi.org/10.5281/zenodo.23073037
+
+```bibtex
+@software{royer_dilutionattention_2026,
+  author    = {Royer, Nick},
+  title     = {DilutionAttention: a parameter-free attention operator that divides each bid by the
+               demand its key has already absorbed},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.23073037},
+  url       = {https://github.com/Royer-Research-Labs/Dilution-Attention}
+}
+```
 
 ## Contributing
 

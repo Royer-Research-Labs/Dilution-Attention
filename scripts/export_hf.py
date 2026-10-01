@@ -187,7 +187,9 @@ def card(name, spec, org, model, ckpt_meta):
         "Weights: Apache-2.0. Training data: FineWeb-Edu (ODC-By 1.0), used with attribution. The model "
         "can produce incorrect, biased or offensive text; it is a research artifact.", "",
         "## Citation", "",
-        f"See [CITATION.cff]({REPO}/blob/main/CITATION.cff) in the release repository.", "",
+        "Cite the software release: Royer, N. (2026). DilutionAttention. Zenodo. "
+        "[https://doi.org/10.5281/zenodo.23073037](https://doi.org/10.5281/zenodo.23073037) "
+        f"(BibTeX in the [README]({REPO}#citation) and [CITATION.cff]({REPO}/blob/main/CITATION.cff)).", "",
     ]
     return "\n".join(lines)
 
