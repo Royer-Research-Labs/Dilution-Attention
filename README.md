@@ -93,9 +93,9 @@ Throughput is the logged training rate on an RTX PRO 6000.
 
 1. **Length generalisation is the durable result, and it comes from the operator.**
    With no position encoding on either side, at the same data, schedule and
-   learning rate, dilution retrieves 1.00 across its 16K context and at 8x
-   beyond it in both seeds, while softmax reaches 0.17-0.19 at its own trained
-   context and chance past it. Dilution with no position encoding also beats
+   learning rate, dilution retrieves 1.00 across its 16K context and 0.91-1.00
+   out to 8x beyond it in both seeds, while softmax reaches 0.17-0.19 at its own
+   trained context and chance past it. Dilution with no position encoding also beats
    softmax *with* RoPE on loss. No tested softmax configuration sustains strong
    retrieval far beyond its training context: the 16K-trained controls are at
    chance by 2x (one softmax + RoPE seed holds 0.64 at 1.5x with NTK scaling),
@@ -113,8 +113,9 @@ Throughput is the logged training rate on an RTX PRO 6000.
 
    ![Loss by position on PG-19 books](docs/figures/pg19-perplexity-209m.png)
 2. **Extrapolation range varies by seed, and loss does not show it.** Dilution's
-   loss replicates to 0.002-0.004 in every cell measured, but how far its
-   retrieval reaches does not: 2x-8x at 64M among seeds that retrieve at all, 4x-8x
+   loss replicates closely (seeds agree to within about 0.007 nats in every cell
+   measured, 0.002-0.004 at 209M), but how far its retrieval reaches does not:
+   2x-8x at 64M among seeds that retrieve at all, 4x-8x
    at 1K context, 2x-8x after 2x Chinchilla at 209M. The 209M 1x checkpoints are
    the most consistent (flat to 8x in both seeds). Report extrapolation as a range
    over seeds ([S22-S24](docs/signals.md)).
@@ -142,7 +143,7 @@ Throughput is the logged training rate on an RTX PRO 6000.
    learning rate 6e-4 improved loss by 0.08 nats and retrieved at chance; with
    one seed, and retrieval failing in one of three seeds at 3e-4 and at 1.5e-4,
    that cannot be separated from the seed lottery ([S15, S22, S23](docs/signals.md)).
-6. **The softmax bid is load-bearing.** Of the bids tried, only softmax and
+6. **Softmax bids work best of those tested.** Of the bids tried, only softmax and
    sigmoid train with the share step. The share step's gradient scales as
    1/bid, and bids whose Jacobian lacks a factor of the bid (relu, relu2,
    minshift) diverge, as that predicts. Softplus also diverged, but its
@@ -191,7 +192,7 @@ Throughput is the logged training rate on an RTX PRO 6000.
    | the human continuation | 0.65-0.70 | | |
 
 Further reading: [docs/research-results.md](docs/research-results.md) (concise findings, setup
-and every results table), [docs/signals.md](docs/signals.md) (the evidence ledger, 200+ runs),
+and every results table), [docs/signals.md](docs/signals.md) (the evidence ledger),
 [docs/related-work.md](docs/related-work.md) (literature position and contribution boundary),
 [docs/reproducing.md](docs/reproducing.md) (data, evaluation protocols and retraining).
 
@@ -229,8 +230,11 @@ python -m dilution.train --config configs/smoke.yaml --overwrite-run   # synthet
 - **Sampling.** `scripts/sample_eval.py` (`pip install -e ".[sampling]"`);
   `scripts/verify_samples.py` recomputes every published sampling statistic from the shipped
   per-sample metrics.
+- **Weights.** The 16 209M models behind the results are on Hugging Face
+  ([Royer-Research-Labs](https://huggingface.co/Royer-Research-Labs)); `dilution.hub.from_pretrained("Royer-Research-Labs/<model>")`
+  loads one (`pip install -e ".[hub]"`).
 - **Retraining.** Configs are under `configs/`, run records (metrics, resolved config, data
-  provenance; no checkpoints) under `runs/`, evaluation outputs under `results/`, and
+  provenance; no training checkpoints) under `runs/`, evaluation outputs under `results/`, and
   `scripts/make_retrieval_figure.py` regenerates the figures.
 
 Commands, the evaluation protocols and their caveats are in

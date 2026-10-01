@@ -33,8 +33,8 @@ past the trained context every softmax model we tested writes incoherent text wh
 samples keep their in-context quality. Inside the trained context, dilution's loss and judged sample
 quality track the stronger softmax-with-RoPE control on in-domain text (level at 16K, behind it at
 1K), but on out-of-domain books it trails that control by 0.05--0.24 nats. We release fused Triton kernels with exact
-gradients, the training and evaluation code, run records for more than 200 training runs,
-model checkpoints and an evidence ledger, and we state the limits: a 209M scale, a synthetic
+gradients, the training and evaluation code, run records for the 101 training runs behind the
+published results, the weights of 16 models and an evidence ledger, and we state the limits: a 209M scale, a synthetic
 retrieval test, and training about 2.2$\times$ slower than softmax at 16K.
 \end{abstract}
 
@@ -52,7 +52,7 @@ yields a smaller share. The idea has a close precedent: temporal attention in re
 encoder--decoders divides the current alignment by the alignments of earlier decoder steps
 \cite{sankaran,paulus}. Our contribution is not that division; it is (i)~an inclusive, row-calibrated
 form that is well defined in causal self-attention, where the exclusive form degenerates; (ii)~fused
-kernels with exact gradients that make it trainable at 16K--256K tokens; and (iii)~a controlled
+kernels with exact gradients that train it at 16K-token contexts and run it forward to 256K tokens; and (iii)~a controlled
 empirical study, with matched softmax baselines and position-encoding controls, of what it does to
 loss, retrieval, generation and attention structure.
 
@@ -89,7 +89,7 @@ trained with the same recipe it loses 0.072 nats, and retrieval at 7.9K tokens f
 raw-exponential cells of the temporal-attention factorial remain untested: our fp32 implementation
 overflowed, and a numerically stable cumulative-logsumexp form has not been built.
 
-\paragraph{The bid must be a softmax.} The share's gradient scales as $1/p$. Of the bid functions
+\paragraph{Softmax bids work best of those tested.} The share's gradient scales as $1/p$. Of the bid functions
 tried, only softmax and sigmoid train; sigmoid is 0.33 nats worse. Bids whose Jacobian lacks a factor
 of the bid (ReLU, ReLU$^2$, a min-shifted linear bid) diverge, as that predicts. Softplus also
 diverged although its Jacobian does carry the factor; that failure is measured, not explained. With
@@ -207,7 +207,8 @@ RoPE at 16K and 0.036 behind it at 1K. We have not tested why.
 
 \subsection{Extrapolation range varies by seed}
 
-Dilution's loss replicates to 0.002--0.004 nats in every cell measured, but its reach does not.
+Dilution's loss replicates closely (seeds agree to within about 0.007 nats in every cell measured,
+0.002--0.004 at 209M), but its reach does not.
 Trained on to 2$\times$ Chinchilla, both dilution seeds reach 2.857 / 2.854 and keep in-context
 retrieval, but one then holds only to about 2$\times$ (0.54 at 64K) while the other stays near-flat
 (0.97 at 64K, 0.83 at 128K). At 1K context the two seeds reach 4$\times$ and 8$\times$. At 64M without
@@ -307,9 +308,11 @@ in-domain text.
 \section{Reproducibility}
 
 The release contains the operator's fp32 reference and fused kernels with parity tests; training and
-evaluation code; the configuration, metrics and data provenance of every published run (200+);
-every result file behind the tables and figures, including per-sample sampling metrics from which a
-script recomputes every published statistic; model checkpoints; and an evidence ledger that records
+evaluation code; the configuration, metrics and data provenance of the 101 runs behind the published
+results (the wider study, including short screens and exploratory runs outside this report's scope,
+comprised about 200); every result file behind the tables and figures, including per-sample sampling
+metrics from which a script recomputes every published statistic; the final weights of the 16 209M
+models on Hugging Face (\url{https://huggingface.co/Royer-Research-Labs}); and an evidence ledger that records
 each finding with its runs, including corrections and withdrawn claims. Every number in this
 report traces to a run record and a result file in the repository.
 

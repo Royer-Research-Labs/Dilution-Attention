@@ -151,7 +151,10 @@ Every book's per-range loss is stored, so paired comparisons over books can be r
 ## Run records and figures
 
 Each published run's record is under `runs/<group>/<arm>_seed<N>/`: `metrics.jsonl`, the fully
-resolved config it ran with, data provenance and the environment. Checkpoints are not published.
+resolved config it ran with, data provenance and the environment. Training checkpoints (with
+optimizer state) are not published; the final weights of the 16 209M models behind the results are
+on Hugging Face ([Royer-Research-Labs](https://huggingface.co/Royer-Research-Labs)) and load with `dilution.hub.from_pretrained`
+(`pip install -e ".[hub]"`); `scripts/export_hf.py` records how they were made from the checkpoints.
 Every config under `configs/` has at least one such record; the kernel validation runs
 (`runs/validate_s27/`) and short learning-rate probes (`runs/smoke/`) have records but no separate
 config. Evaluation outputs are under `results/`, and `python scripts/make_retrieval_figure.py`

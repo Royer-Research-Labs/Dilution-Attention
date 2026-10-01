@@ -202,7 +202,8 @@ validation slice: on these books dilution trails softmax + RoPE by 0.05-0.08 nat
    flat to 8x, while softmax + RoPE with NTK scaling ends up 1.7-1.9 nats worse than dilution at 8x
    and softmax without position encoding 2.6-5.1 worse (S27).
 2. **Dilution's loss is reproducible; its extrapolation range is not.** Dilution seeds agree to
-   0.002-0.004 nats in every cell measured, while softmax seeds differ by up to 0.08. How far
+   within about 0.007 nats in every cell measured (0.002-0.004 at 209M), while softmax seeds differ by up
+   to 0.08. How far
    retrieval reaches varies by seed at every scale: 4x-8x at 1K context, 2x-8x after 2x Chinchilla
    at 209M, 2x-8x among 64M seeds that retrieve at all. The 209M 1x checkpoints are the most
    consistent (flat to 8x in both seeds). Report extrapolation as a range over seeds (S22-S24).
@@ -237,7 +238,7 @@ validation slice: on these books dilution trails softmax + RoPE by 0.05-0.08 nat
    isolate the operator, because its softmax layers also carry RoPE. At depth, dilution's key
    load is less concentrated than softmax's for similar per-query selectivity. Sink size does not
    track extrapolation: the two 2x dilution seeds differ in reach but not in sink (S18, S20).
-6. **Softmax bids are load-bearing.** Of the bids tried, only softmax and sigmoid train with the
+6. **Softmax bids work best of those tested.** Of the bids tried, only softmax and sigmoid train with the
    share step, and sigmoid is 0.33 nats worse. The share step's gradient scales as 1/bid, and
    bids whose Jacobian lacks a factor of the bid (ReLU, ReLU^2, min-shift) diverge, as that
    predicts. Softplus also diverged, after ~500 normal steps, although its Jacobian does carry

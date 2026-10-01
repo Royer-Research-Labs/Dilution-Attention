@@ -22,7 +22,8 @@ How to read it:
   slice (`scripts/eval_checkpoint.py`) unless a signal says otherwise. Seed counts are
   stated per result.
 - **Evidence paths.** `runs/<group>/<run>/` holds each run's `metrics.jsonl`, resolved config
-  and data provenance. Checkpoints are not included. `results/{niah,niah_v4,eval,structure,needle,samples}/`
+  and data provenance. Training checkpoints are not included; the final weights of the 209M models
+  are on Hugging Face (https://huggingface.co/Royer-Research-Labs). `results/{niah,niah_v4,eval,structure,needle,samples}/`
   holds the evaluation outputs. Corpus paths are repo-relative (`data/...`). Build the
   corpora with `dilution-prepare-data` (see the README).
   Local absolute paths in the run records were rewritten to this repo-relative form on
