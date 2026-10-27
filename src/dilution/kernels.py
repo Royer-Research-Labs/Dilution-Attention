@@ -189,7 +189,7 @@ if HAS_TRITON:
 
         if not STATS_ONLY:
             # Sweep 2: per-block key-sums of p (this block's rows only).
-            s_base = S + pid_n.to(tl.int64) * stride_sn + pid_m * stride_sb
+            s_base = S + pid_n.to(tl.int64) * stride_sn + pid_m.to(tl.int64) * stride_sb
             for n_start in range(0, m_start + BLOCK_M, BLOCK_N):
                 n_offs = n_start + tl.arange(0, BLOCK_N)
                 k_tile = tl.load(k_base + n_offs[:, None] * stride_qt + d_offs[None, :] * stride_qd,
@@ -227,7 +227,7 @@ if HAS_TRITON:
             rden = tl.load(RDEN + pid_n * T + m_offs, mask=m_offs < T, other=1.0)
             causal, p = _p_from_k(q_tile, k_tile, j_offs, m_offs, T, rmax, 1.0 / rden,
                                   SCALE, DOT_PREC, LOWP)
-            tl.store(carry_base + rb * T + j_offs, carry, mask=j_offs < T)
+            tl.store(carry_base + rb.to(tl.int64) * T + j_offs, carry, mask=j_offs < T)
             inclusive = carry[None, :] + tl.cumsum(p, axis=0)
             carry += tl.sum(p, axis=0)
             share = tl.where(causal, p / (inclusive + 1e-9), 0.0)
@@ -254,7 +254,7 @@ if HAS_TRITON:
         keys = tl.program_id(0) * KEYS + tl.arange(0, KEYS)
         n = tl.program_id(1)
         blocks = tl.arange(0, SCAN_B)
-        offsets = n.to(tl.int64) * NB * T + blocks[:, None] * T + keys[None, :]
+        offsets = n.to(tl.int64) * NB * T + blocks[:, None].to(tl.int64) * T + keys[None, :]
         valid = (blocks < NB)[:, None] & (keys < T)[None, :]
         # K1 only writes the causal part of each block's key sums.
         sums = tl.load(S + offsets,
@@ -288,7 +288,7 @@ if HAS_TRITON:
         rmax = tl.load(RMAX + pid_n * T + m_offs, mask=m_mask, other=0.0)
         rden = tl.load(RDEN + pid_n * T + m_offs, mask=m_mask, other=1.0)
         rinv = 1.0 / rden
-        c_base = CARRY + pid_n.to(tl.int64) * stride_sn + pid_m * stride_sb
+        c_base = CARRY + pid_n.to(tl.int64) * stride_sn + pid_m.to(tl.int64) * stride_sb
 
         acc = tl.zeros((BLOCK_M, HEAD_DIM), tl.float32)
         share_sum = tl.zeros((BLOCK_M,), tl.float32)
@@ -510,8 +510,8 @@ if HAS_TRITON:
         dbar = tl.load(DBAR + pid_n * T + m_offs, mask=m_mask, other=0.0)
         ssum = tl.load(SSUM + pid_n * T + m_offs, mask=m_mask, other=1.0)
         sinv = 1.0 / (ssum + 1e-9)
-        c_base = CARRY + pid_n.to(tl.int64) * stride_sn + pid_m * stride_sb
-        sk_base = SK + pid_n.to(tl.int64) * stride_sn + pid_m * stride_sb
+        c_base = CARRY + pid_n.to(tl.int64) * stride_sn + pid_m.to(tl.int64) * stride_sb
+        sk_base = SK + pid_n.to(tl.int64) * stride_sn + pid_m.to(tl.int64) * stride_sb
 
         gpart = tl.zeros((BLOCK_M,), tl.float32)
         for n_start in range(0, m_start + BLOCK_M, BLOCK_N):
@@ -555,7 +555,7 @@ if HAS_TRITON:
         rmax = tl.load(RMAX + pid_n * T + m_offs, mask=m_mask, other=0.0)
         rden = tl.load(RDEN + pid_n * T + m_offs, mask=m_mask, other=1.0)
         rinv = 1.0 / rden
-        sufk_base = SUFK + pid_n.to(tl.int64) * stride_sn + pid_m * stride_sb
+        sufk_base = SUFK + pid_n.to(tl.int64) * stride_sn + pid_m.to(tl.int64) * stride_sb
 
         ghat = tl.load(GPART + pid_n * T + m_offs, mask=m_mask, other=0.0)
         for n_start in range(0, m_start + BLOCK_M, BLOCK_N):
@@ -601,7 +601,7 @@ if HAS_TRITON:
             rmax = tl.load(RMAX + pid_n * T + m_offs, mask=m_mask, other=0.0)
             rden = tl.load(RDEN + pid_n * T + m_offs, mask=m_mask, other=1.0)
             ssum = tl.load(SSUM + pid_n * T + m_offs, mask=m_mask, other=1.0)
-            c_base = carry_base + rb * stride_sb
+            c_base = carry_base + rb.to(tl.int64) * stride_sb
             causal, p, committed, inv = _share_from_k(
                 q_tile, k_blk, j_offs, m_offs, T, rmax, 1.0 / rden, c_base, stride_st,
                 SCALE, DOT_PREC, LOWP)
@@ -649,8 +649,8 @@ if HAS_TRITON:
             dbar = tl.load(DBAR + pid_n * T + m_offs, mask=m_mask, other=0.0)
             ssum = tl.load(SSUM + pid_n * T + m_offs, mask=m_mask, other=1.0)
             ghat = tl.load(GHAT + pid_n * T + m_offs, mask=m_mask, other=0.0)
-            c_base = carry_base + rb * stride_sb
-            sufk_base = sufk_base_n + rb * stride_sb
+            c_base = carry_base + rb.to(tl.int64) * stride_sb
+            sufk_base = sufk_base_n + rb.to(tl.int64) * stride_sb
 
             causal, p, committed, inv = _share_from_k(
                 q_tile, k_blk, j_offs, m_offs, T, rmax, 1.0 / rden, c_base, stride_st,
@@ -749,7 +749,7 @@ if HAS_TRITON:
             rden = tl.load(RDEN + pid_n * T + m_offs, mask=m_mask, other=1.0)
             dbar = tl.load(DBAR + pid_n * T + m_offs, mask=m_mask, other=0.0)
             ssum = tl.load(SSUM + pid_n * T + m_offs, mask=m_mask, other=1.0)
-            c_base = carry_base + rb * stride_sb
+            c_base = carry_base + rb.to(tl.int64) * stride_sb
             causal, p, committed, inv = _share_from_k(
                 q_tile, k_blk, j_offs, m_offs, T, rmax, 1.0 / rden, c_base, stride_st,
                 SCALE, DOT_PREC, LOWP)
